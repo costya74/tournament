@@ -4,15 +4,17 @@ import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ru.netology.domain.Player;
 
 public class Game {
-    private List<Player> players = new ArrayList<>();
+    private Map<String, Player> players = new HashMap<>();
 
     public void register(Player player) {
-        this.players.add(player);
+        this.players.put(player.getName(), player);
     }
 // проверяем на регистрацию игроков, если null, значит не числиться, также можно
 //    проверять по отдельности как в продукт менелжере
@@ -22,8 +24,8 @@ public class Game {
             throw new IllegalArgumentException("same");
         }
         // проверяем, что игрок числиться в зарегистрированных
-        var first = findPlayer(playerName1);      // Player устанавливается само, смотрим подсказки при написании
-        var second = findPlayer(playerName2);
+        var first = players.get(playerName1);      // Player устанавливается само, смотрим подсказки при написании
+        var second = players.get(playerName2);
         if (first == null || second == null) {
             throw new RuntimeException("NotRegisteredException");
         }
@@ -40,13 +42,6 @@ public class Game {
         return 0;
     }
 
-    private Player findPlayer(String name) {
-        for (Player player : players) {
-            if (player.getName().equalsIgnoreCase(name)) {  // IgnoreCase- не важно в каком регистре написано
-                return player;
-            }
-        }
-        return null;
-    }
+ }
 
-}
+
